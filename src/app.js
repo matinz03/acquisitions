@@ -1,4 +1,5 @@
 import logger from '#config/logger.js';
+import securityMiddleware from '#middleware/security.middleware.js';
 import authRoutes from '#routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -6,6 +7,7 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 const app = express();
+
 app.use(helmet());
 app.use(cors());
 app.use(cookieParser());
@@ -16,6 +18,7 @@ app.use(
     stream: { write: message => logger.info(message.trim()) },
   })
 );
+app.use(securityMiddleware);
 app.get('/', (req, res) => {
   logger.info('Hello from logger');
   res.status(200).send('hello from Acquisitions!');
